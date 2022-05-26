@@ -19,3 +19,6 @@ doc/api/
 *.js_
 *.js.deps
 *.js.map
+/.dart_tool/
+/.idea/
+/tcc_ufu_my_outfit_front.iml
