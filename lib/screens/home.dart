@@ -9,7 +9,9 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black38,
-        flexibleSpace: _buildGradientAppBar(),
+        flexibleSpace: Container(
+          decoration: _boxDecoration(),
+        ),
         leading: Image.asset(
           "assets/icons8-user-48.png",
         ),
@@ -34,20 +36,23 @@ class HomePage extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _FeaturePanel("Outfits", "assets/outfits.png", acao: _algoAcontece,),
           _FeaturePanel(
-              "Guarda Roupa", "assets/guarda-roupa-asset.png", acao: _algoAcontece),
+            "Outfits",
+            "assets/outfits.png",
+            acao: _algoAcontece,
+          ),
+          _FeaturePanel("Guarda Roupa", "assets/guarda-roupa-asset.png",
+              acao: _algoAcontece),
           Container(
             height: 142,
-
             alignment: Alignment.bottomCenter,
             color: Colors.white,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _FeatureItem("Roupas", Icons.add,
+                _FeatureItem("Roupas", Icons.add, _boxDecoration(),
                     onClick: () => _algoAcontece()),
-                _FeatureItem("Outfit", Icons.add,
+                _FeatureItem("Outfit", Icons.add, _boxDecoration(),
                     onClick: () => _algoAcontece()),
               ],
             ),
@@ -57,20 +62,17 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Container _buildGradientAppBar() {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Colors.pink,
-            Colors.deepOrangeAccent,
-          ],
-          begin: Alignment.centerLeft,
-          end: Alignment.bottomCenter,
-          stops: [0.03, 1],
-        ),
+  BoxDecoration _boxDecoration() {
+    return const BoxDecoration(
+      gradient: LinearGradient(
+        colors: [
+          Colors.pink,
+          Colors.deepOrangeAccent,
+        ],
+        begin: Alignment.centerLeft,
+        end: Alignment.bottomCenter,
+        stops: [0.03, 1],
       ),
-
     );
   }
 }
@@ -81,21 +83,22 @@ class _FeatureItem extends StatelessWidget {
   final String name;
   final IconData icon;
   final Function onClick;
+  final BoxDecoration decorador;
 
-  const _FeatureItem(this.name, this.icon, {required this.onClick});
+  const _FeatureItem(this.name, this.icon, this.decorador,
+      {required this.onClick});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(6.0),
       child: Material(
-        color: Theme
-            .of(context)
-            .primaryColor,
+        color: Theme.of(context).primaryColor,
         child: InkWell(
           onTap: () => onClick(),
           child: Container(
             padding: const EdgeInsets.all(4.0),
+            decoration: decorador,
             width: 190,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,7 +123,6 @@ class _FeatureItem extends StatelessWidget {
 }
 
 class _FeaturePanel extends StatelessWidget {
-
   final String title;
   final String urlImage;
   final Function acao;
@@ -130,33 +132,29 @@ class _FeaturePanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-
         child: Padding(
-          padding: EdgeInsets.zero,
-          child: InkWell(
-            onTap: () => acao,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  top: 2.0, bottom: 1.0, right: 4.0, left: 4.0),
-              child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(24),
-                  child: Stack(
-                    children: [
-                      _buildImageBackground(urlImage),
-                      _buildGradientBackground(),
-                      _buildTitle(title),
-                    ],
-                  ),
-                ),
+      padding: EdgeInsets.zero,
+      child: InkWell(
+        onTap: () => acao,
+        child: Padding(
+          padding: const EdgeInsets.only(
+              top: 2.0, bottom: 1.0, right: 4.0, left: 4.0),
+          child: AspectRatio(
+            aspectRatio: 16 / 9,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(24),
+              child: Stack(
+                children: [
+                  _buildImageBackground(urlImage),
+                  _buildGradientBackground(),
+                  _buildTitle(title),
+                ],
               ),
             ),
           ),
-        )
-
-
-    );
+        ),
+      ),
+    ));
   }
 
   Positioned _buildTitle(final String subTitle) {
@@ -197,5 +195,14 @@ class _FeaturePanel extends StatelessWidget {
       width: 425,
       height: 300,
     );
+  }
+}
+
+class _boxDecoratorGradient extends StatelessWidget {
+  const _boxDecoratorGradient({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
