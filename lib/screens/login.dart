@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tcc_ufu_my_outfit_front/screens/reset-password.page.dart';
-import 'package:tcc_ufu_my_outfit_front/screens/signup.page.dart';
+import 'package:tcc_ufu_my_outfit_front/screens/reset_password.page.dart';
+import 'package:tcc_ufu_my_outfit_front/screens/signup.dart';
 
-import 'home.page.dart';
+import 'home.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);

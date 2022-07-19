@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tcc_ufu_my_outfit_front/screens/login.page.dart';
+import 'package:tcc_ufu_my_outfit_front/screens/login.dart';
 
 void main() => runApp(const MyApp());
 
