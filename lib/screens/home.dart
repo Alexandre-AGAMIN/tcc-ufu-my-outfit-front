@@ -96,7 +96,7 @@ class _FeatureItem extends StatelessWidget {
           onTap: () => onClick(),
           child: Container(
             padding: const EdgeInsets.all(4.0),
-            width: 200,
+            width: 190,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,9 +130,7 @@ class _FeaturePanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-        color: Theme
-            .of(context)
-            .primaryColor,
+
         child: Padding(
           padding: EdgeInsets.zero,
           child: InkWell(
