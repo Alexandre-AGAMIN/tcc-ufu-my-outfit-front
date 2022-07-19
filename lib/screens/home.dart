@@ -22,21 +22,21 @@ class HomePage extends StatelessWidget {
           ],
         ),
         actions: [
-           IconButton(
-              onPressed: () => _algoAcontece(),
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.black38,
-              ),
+          IconButton(
+            onPressed: () => _algoAcontece(),
+            icon: const Icon(
+              Icons.menu,
+              color: Colors.black38,
             ),
+          ),
         ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildFeaturePanel("Outfits", "assets/outfits.png", _algoAcontece),
-          _buildFeaturePanel(
-              "Guarda Roupa", "assets/guarda-roupa-asset.png", _algoAcontece),
+          _FeaturePanel("Outfits", "assets/outfits.png", acao: _algoAcontece,),
+          _FeaturePanel(
+              "Guarda Roupa", "assets/guarda-roupa-asset.png", acao: _algoAcontece),
           Container(
             height: 142,
 
@@ -57,26 +57,107 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  InkWell _buildFeaturePanel(
-      final String title, final String urlImage, final Function acao) {
-    return InkWell(
-      onTap: () => acao,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 2.0, bottom: 1.0, right: 4.0, left: 4.0),
-        child: AspectRatio(
-          aspectRatio: 16 / 9,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(24),
-            child: Stack(
+  Container _buildGradientAppBar() {
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Colors.pink,
+            Colors.deepOrangeAccent,
+          ],
+          begin: Alignment.centerLeft,
+          end: Alignment.bottomCenter,
+          stops: [0.03, 1],
+        ),
+      ),
+
+    );
+  }
+}
+
+void _algoAcontece() {}
+
+class _FeatureItem extends StatelessWidget {
+  final String name;
+  final IconData icon;
+  final Function onClick;
+
+  const _FeatureItem(this.name, this.icon, {required this.onClick});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(6.0),
+      child: Material(
+        color: Theme
+            .of(context)
+            .primaryColor,
+        child: InkWell(
+          onTap: () => onClick(),
+          child: Container(
+            padding: const EdgeInsets.all(4.0),
+            width: 200,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildImageBackground(urlImage),
-                _buildGradientBackground(),
-                _buildTitle(title),
+                Icon(
+                  icon,
+                  color: Colors.white,
+                  size: 24.0,
+                ),
+                Text(
+                  name,
+                  style: const TextStyle(color: Colors.white, fontSize: 16.0),
+                )
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class _FeaturePanel extends StatelessWidget {
+
+  final String title;
+  final String urlImage;
+  final Function acao;
+
+  const _FeaturePanel(this.title, this.urlImage, {required this.acao});
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+        color: Theme
+            .of(context)
+            .primaryColor,
+        child: Padding(
+          padding: EdgeInsets.zero,
+          child: InkWell(
+            onTap: () => acao,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 2.0, bottom: 1.0, right: 4.0, left: 4.0),
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(24),
+                  child: Stack(
+                    children: [
+                      _buildImageBackground(urlImage),
+                      _buildGradientBackground(),
+                      _buildTitle(title),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        )
+
+
     );
   }
 
@@ -111,71 +192,12 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Container _buildGradientAppBar() {
-    return Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.pink,
-              Colors.deepOrangeAccent,
-            ],
-            begin: Alignment.centerLeft,
-            end: Alignment.bottomCenter,
-            stops: [0.03, 1],
-          ),
-        ),
-
-    );
-  }
-
   Image _buildImageBackground(final String urlString) {
     return Image.asset(
       urlString,
       fit: BoxFit.cover,
       width: 425,
       height: 300,
-    );
-  }
-}
-
-void _algoAcontece() {}
-
-class _FeatureItem extends StatelessWidget {
-  final String name;
-  final IconData icon;
-  final Function onClick;
-
-  const _FeatureItem(this.name, this.icon, {required this.onClick});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(6.0),
-      child: Material(
-        color: Theme.of(context).primaryColor,
-        child: InkWell(
-          onTap: () => onClick(),
-          child: Container(
-            padding: const EdgeInsets.all(8.0),
-            width: 189,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(
-                  icon,
-                  color: Colors.white,
-                  size: 24.0,
-                ),
-                Text(
-                  name,
-                  style: const TextStyle(color: Colors.white, fontSize: 16.0),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
     );
   }
 }
