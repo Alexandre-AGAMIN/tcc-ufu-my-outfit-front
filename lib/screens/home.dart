@@ -49,19 +49,20 @@ class HomePage extends StatelessWidget {
                 "Guarda Roupa", "assets/guarda-roupa-asset.png", constraints,
                 acao: _algoAcontece),
             Container(
-              height: constraints.maxHeight * 0.2,
-              alignment: Alignment.bottomCenter,
-              color: Colors.white,
+              height: constraints.maxHeight * 0.1,
+              width: constraints.maxWidth,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  _FeatureItem("Roupas", Icons.add, _boxDecoration(),
+                  _FeatureItem("Roupa", Icons.photo_camera,
+                      _boxDecoration(), constraints,
                       onClick: () => _algoAcontece()),
-                  _FeatureItem("Outfit", Icons.add, _boxDecoration(),
+                  _FeatureItem(
+                      "Outfit", Icons.work_sharp, _boxDecoration(), constraints,
                       onClick: () => _algoAcontece()),
                 ],
               ),
-            ),
+            )
           ],
         );
       }),
@@ -90,37 +91,44 @@ class _FeatureItem extends StatelessWidget {
   final IconData icon;
   final Function onClick;
   final BoxDecoration decorador;
+  final BoxConstraints constraints;
 
-  const _FeatureItem(this.name, this.icon, this.decorador,
+  const _FeatureItem(this.name, this.icon, this.decorador, this.constraints,
       {required this.onClick});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(6.0),
-      child: Material(
-        color: Theme.of(context).primaryColor,
-        child: InkWell(
-          onTap: () => onClick(),
-          child: Container(
-            padding: const EdgeInsets.all(4.0),
-            decoration: decorador,
-            width: 190,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(
+    return InkWell(
+      onTap: () => onClick(),
+      child: Container(
+        width: constraints.maxWidth * 0.5,
+        height: constraints.maxHeight * 0.5,
+        alignment: Alignment.center,
+        child: Container(
+          // decoration: decorador,
+          width: constraints.maxWidth,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+
+            children: [
+              Icon(
+                Icons.add,
+                size: 16,
+                semanticLabel: name,
+                color: Colors.deepOrange,
+              ),
+              Icon(
                   icon,
-                  color: Colors.white,
-                  size: 24.0,
+                  size: 32,
+                  semanticLabel: name,
+                color: Colors.deepOrange,
                 ),
-                Text(
-                  name,
-                  style: const TextStyle(color: Colors.white, fontSize: 16.0),
-                )
-              ],
-            ),
+
+              Text(
+                name,
+                style: const TextStyle(color: Colors.deepOrange, fontSize: 20.0),
+              )
+            ],
           ),
         ),
       ),
@@ -140,9 +148,8 @@ class _FeaturePanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: constraints.maxHeight * 0.4,
+        height: constraints.maxHeight * 0.45,
         child: Flexible(
-          flex: 1,
           child: InkWell(
             onTap: () => acao,
             child: Padding(
