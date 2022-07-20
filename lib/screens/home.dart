@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -33,32 +34,37 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _FeaturePanel(
-            "Outfits",
-            "assets/outfits.png",
-            acao: _algoAcontece,
-          ),
-          _FeaturePanel("Guarda Roupa", "assets/guarda-roupa-asset.png",
-              acao: _algoAcontece),
-          Container(
-            height: 142,
-            alignment: Alignment.bottomCenter,
-            color: Colors.white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _FeatureItem("Roupas", Icons.add, _boxDecoration(),
-                    onClick: () => _algoAcontece()),
-                _FeatureItem("Outfit", Icons.add, _boxDecoration(),
-                    onClick: () => _algoAcontece()),
-              ],
+      body: LayoutBuilder(builder: (context, constraints) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            _FeaturePanel(
+              "Outfits",
+              "assets/outfits.png",
+              constraints,
+              acao: _algoAcontece,
             ),
-          ),
-        ],
-      ),
+            _FeaturePanel(
+                "Guarda Roupa", "assets/guarda-roupa-asset.png", constraints,
+                acao: _algoAcontece),
+            Container(
+              height: constraints.maxHeight * 0.2,
+              alignment: Alignment.bottomCenter,
+              color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _FeatureItem("Roupas", Icons.add, _boxDecoration(),
+                      onClick: () => _algoAcontece()),
+                  _FeatureItem("Outfit", Icons.add, _boxDecoration(),
+                      onClick: () => _algoAcontece()),
+                ],
+              ),
+            ),
+          ],
+        );
+      }),
     );
   }
 
@@ -126,40 +132,43 @@ class _FeaturePanel extends StatelessWidget {
   final String title;
   final String urlImage;
   final Function acao;
+  final BoxConstraints constraints;
 
-  const _FeaturePanel(this.title, this.urlImage, {required this.acao});
+  const _FeaturePanel(this.title, this.urlImage, this.constraints,
+      {required this.acao});
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-        child: Padding(
-      padding: EdgeInsets.zero,
-      child: InkWell(
-        onTap: () => acao,
-        child: Padding(
-          padding: const EdgeInsets.only(
-              top: 2.0, bottom: 1.0, right: 4.0, left: 4.0),
-          child: AspectRatio(
-            aspectRatio: 16 / 9,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(24),
-              child: Stack(
-                children: [
-                  _buildImageBackground(urlImage),
-                  _buildGradientBackground(),
-                  _buildTitle(title),
-                ],
+    return SizedBox(
+        height: constraints.maxHeight * 0.4,
+        child: Flexible(
+          flex: 1,
+          child: InkWell(
+            onTap: () => acao,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 2.0, bottom: 1.0, right: 4.0, left: 4.0),
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(24),
+                  child: Stack(
+                    children: [
+                      _buildImageBackground(urlImage, constraints),
+                      _buildGradientBackground(),
+                      _buildTitle(title, constraints),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
-    ));
+        ));
   }
 
-  Positioned _buildTitle(final String subTitle) {
+  Positioned _buildTitle(final String subTitle, BoxConstraints constraints) {
     return Positioned(
-      width: 395,
+      width: constraints.maxWidth,
       bottom: 40,
       child: Text(
         subTitle,
@@ -188,21 +197,13 @@ class _FeaturePanel extends StatelessWidget {
     );
   }
 
-  Image _buildImageBackground(final String urlString) {
+  Image _buildImageBackground(
+      final String urlString, BoxConstraints constraints) {
     return Image.asset(
       urlString,
       fit: BoxFit.cover,
-      width: 425,
-      height: 300,
+      width: constraints.maxWidth,
+      height: constraints.maxHeight,
     );
-  }
-}
-
-class _boxDecoratorGradient extends StatelessWidget {
-  const _boxDecoratorGradient({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }
